@@ -13,6 +13,7 @@ $(document).ready(init);
 function init(){
   getList();
   addInputListener();
+  addDeleteIconListener();
 }
 
 function getList() {
@@ -43,7 +44,7 @@ function printList(data) {
     for (var i = 0; i < data.length; i++) { // altrimenti per ogni elemento della lista stapo un li. questo li avrà un data-id con l'id dell'oggetto sul server. il text in uno span. e un'icona fontawesome che poi mi servirà per cancellare elementi dalla lista. non è molto complesso quindi posso riportare direttamente la stringa invece di usare handlebars. per l'esercizio è sufficiente.
       var listItem = data[i]["text"];
       var itemID = data[i]["id"];
-      target.append(`<li data-id="${itemID}"><span>${listItem}</span><i class="fas fa-times"></i></li>`);
+      target.append(`<li data-id="${itemID}"><span>${listItem}</span><i class="fas fa-times delete-icon"></i></li>`);
     }
   }
 
@@ -85,4 +86,27 @@ function addItem() {
       console.log("err", err);
     }
   });
+}
+
+function addDeleteIconListener() {
+  // essendo elementi creati dinamicamente non posso utilizzare .click() utilizzo su tutto il document il .on() al click su elementi che hanno classe delete-icon lancio la funzione deleteItem. Penso che si potrebbe scrivere anche con al click function( se $(this) ha classe delete-icon allora lancia la funzione deleteItem)
+  $(document).on("click", ".delete-icon", deleteItem);
+}
+
+function deleteItem(){
+  var itemId = $(this).parents("li").data("id"); // per sapere l'id dell'elemento da cancellare (che è stampato in pagina nel data-id del li e corrisponde all'id dell'oggetto sul server) parto dall'elemento cliccato. cerco nei genitori (cioè gli elementi html che lo contengono) arrivo al li. e da quello leggo il data-id con l'id.
+
+  $.ajax({
+    url: "http://157.230.17.132:3005/todos/" + itemId, // il server per il metodo delete mi richiede di utilizzare l'url con alla fine l'id dell'oggetto da cancellare. è una cosa arbitraria, il backend imposta come comunica il server con l'esterno e il frontend rispetta le impostazioni in modo che tutte le comunicazioni vada a buon fine. la stringa dell'url si poteva anche scrivere `http://157.230.17.132:3005/todos/${itemId}`
+    method: "DELETE",
+    success: function(data){
+      // come data il server risponde con un oggetto vuoto. si potrebbe anche in questo caso utilizzarlo per dei controlli ma per ora è sufficiente così.
+
+      getList(); // lancio la funzione getList per ristampare la lista aggiornata
+    },
+    error: function(err) {
+      console.log("err", err);
+    }
+  });
+
 }

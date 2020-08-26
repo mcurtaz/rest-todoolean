@@ -1,0 +1,32 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body{
+  background-color: #282c34;
+  color: #abb2bf;
+}
+
+.container{
+  padding: 20px 15%;
+}
+
+.container h1{
+  text-align: center;
+  color: #d19a66;
+}
+
+.container .input-form{
+  padding: 20px 0;
+}
+
+.container .input-form input{
+  width: 250px;
+  height: 30px;
+}
+.container .input-form button{
+  padding: 5px 15px;
+}

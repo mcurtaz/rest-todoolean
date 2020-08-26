@@ -19,6 +19,21 @@ body{
   color: #d19a66;
 }
 
+.container ul li{
+  font-size: 18px;
+  padding: 5px 0;
+}
+
+.container ul li i{
+  padding-left: 30px;
+  font-size: 18px;
+}
+
+.container ul li i:hover{
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
 .container .input-form{
   padding: 20px 0;
 }

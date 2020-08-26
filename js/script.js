@@ -11,5 +11,38 @@
 $(document).ready(init);
 
 function init(){
-  console.log("hello world!");
+  getList();
+}
+
+function getList() {
+  $.ajax({
+    url: "http://157.230.17.132:3005/todos",
+    method:"GET",
+    success: function(data){
+      printList(data);
+    },
+    error: function(err){
+      console.log("err", err);
+    }
+  });
+}
+
+function printList(data) {
+
+  var target = $("#list");
+
+  target.text("");
+
+  if(data.length == 0){
+
+    target.append(`Nothing to do.`);
+  } else {
+
+    for (var i = 0; i < data.length; i++) {
+      var listItem = data[i]["text"];
+      var itemID = data[i]["id"];
+      target.append(`<li data-id="${itemID}"><span>${listItem}</span><i class="fas fa-times"></i></li>`);
+    }
+  }
+
 }
